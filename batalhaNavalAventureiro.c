@@ -31,14 +31,14 @@ void posicionarNavioVertical(int tabuleiro[TAMANHO][TAMANHO], int linha, int col
     }
 }
 
-// Função para posicionar um navio na diagonal principal (pra baixo) (linha = coluna)
+// Função para posicionar um navio na diagonal principal (pra baixo e pra direita) (linha = coluna)
 void posicionarNavioDiagonalPrincipal(int tabuleiro[TAMANHO][TAMANHO], int linha, int coluna) {
     for (int i = 0; i < TAMANHO_NAVIO; i++) {
         tabuleiro[linha + i][coluna + i] = 7; // Marca as posições do navio com 7
     }
 }
 
-// Função para posicionar um navio na diagonal secundária (pra cima) (linha + coluna = constante)
+// Função para posicionar um navio na diagonal secundária (pra baixo e pra esquerda) (linha + coluna = constante)
 void posicionarNavioDiagonalSecundaria(int tabuleiro[TAMANHO][TAMANHO], int linha, int coluna) {
     for (int i = 0; i < TAMANHO_NAVIO; i++) {
         tabuleiro[linha + i][coluna - i] = 7; // Marca as posições do navio com 7
@@ -51,9 +51,9 @@ int coordenadasValidas(int linha, int coluna, int orientacao) {
         return (linha >= 0 && linha < TAMANHO && coluna >= 0 && coluna + TAMANHO_NAVIO <= TAMANHO);
     } else if (orientacao == 1) { // Navio vertical (pra baixo)
         return (linha >= 0 && linha + TAMANHO_NAVIO <= TAMANHO && coluna >= 0 && coluna < TAMANHO);
-    } else if (orientacao == 2) { // Navio diagonal principal (pra baixo)
+    } else if (orientacao == 2) { // Navio diagonal principal (pra baixo e pra direita)
         return (linha >= 0 && linha + TAMANHO_NAVIO <= TAMANHO && coluna >= 0 && coluna + TAMANHO_NAVIO <= TAMANHO);
-    } else if (orientacao == 3) { // Navio diagonal secundária (pra cima)
+    } else if (orientacao == 3) { // Navio diagonal secundária (pra baixo e pra esquerda)
         return (linha >= 0 && linha + TAMANHO_NAVIO <= TAMANHO && coluna - TAMANHO_NAVIO + 1 >= 0 && coluna < TAMANHO);
     }
     return 0; // Orientação inválida
@@ -73,13 +73,13 @@ int semSobreposicao(int tabuleiro[TAMANHO][TAMANHO], int linha, int coluna, int 
                 return 0; // Há sobreposição
             }
         }
-    } else if (orientacao == 2) { // Navio diagonal principal (pra baixo)
+    } else if (orientacao == 2) { // Navio diagonal principal (pra baixo e pra direita)
         for (int i = 0; i < TAMANHO_NAVIO; i++) {
             if (tabuleiro[linha + i][coluna + i] != 0) {
                 return 0; // Há sobreposição
             }
         }
-    } else if (orientacao == 3) { // Navio diagonal secundária (pra cima)
+    } else if (orientacao == 3) { // Navio diagonal secundária (pra baixo e pra esquerda)
         for (int i = 0; i < TAMANHO_NAVIO; i++) {
             if (tabuleiro[linha + i][coluna - i] != 0) {
                 return 0; // Há sobreposição
@@ -96,8 +96,8 @@ int main() {
     // Coordenadas iniciais dos navios (definidas no código)
     int linhaNavio1 = 2, colunaNavio1 = 6; // Navio horizontal (pra direita)
     int linhaNavio2 = 5, colunaNavio2 = 6; // Navio vertical (pra baixo)
-    int linhaNavio3 = 1, colunaNavio3 = 1; // Navio diagonal principal (pra baixo)
-    int linhaNavio4 = 6, colunaNavio4 = 5; // Navio diagonal secundária (pra cima)
+    int linhaNavio3 = 1, colunaNavio3 = 1; // Navio diagonal principal (pra baixo e pra direita)
+    int linhaNavio4 = 6, colunaNavio4 = 5; // Navio diagonal secundária (pra baixo e pra esquerda)
 
     // Posiciona o navio horizontal (pra direita)
     if (coordenadasValidas(linhaNavio1, colunaNavio1, 0) && semSobreposicao(tabuleiro, linhaNavio1, colunaNavio1, 0)) {
@@ -119,15 +119,15 @@ int main() {
     if (coordenadasValidas(linhaNavio3, colunaNavio3, 2) && semSobreposicao(tabuleiro, linhaNavio3, colunaNavio3, 2)) {
         posicionarNavioDiagonalPrincipal(tabuleiro, linhaNavio3, colunaNavio3);
     } else {
-        printf("Erro: Coordenadas inválidas ou sobreposição para o navio diagonal principal (pra baixo).\n");
+        printf("Erro: Coordenadas inválidas ou sobreposição para o navio diagonal principal (pra baixo e pra direita).\n");
         return 1;
     }
 
-    // Posiciona o navio diagonal secundária (pra cima)
+    // Posiciona o navio diagonal secundária (pra baixo e pra esquerda)
     if (coordenadasValidas(linhaNavio4, colunaNavio4, 3) && semSobreposicao(tabuleiro, linhaNavio4, colunaNavio4, 3)) {
         posicionarNavioDiagonalSecundaria(tabuleiro, linhaNavio4, colunaNavio4);
     } else {
-        printf("Erro: Coordenadas inválidas ou sobreposição para o navio diagonal secundária (pra cima).\n");
+        printf("Erro: Coordenadas inválidas ou sobreposição para o navio diagonal secundária (pra baixo e pra esquerda).\n");
         return 1;
     }
 
