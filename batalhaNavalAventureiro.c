@@ -1,5 +1,6 @@
 #include <stdio.h>
 // Tamanho do tabuleiro
+
 #define TAMANHO 10
 
 // Tamanho dos navios
